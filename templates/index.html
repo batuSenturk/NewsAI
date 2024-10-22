@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewsAI - Intelligent News Aggregation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=1.1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1 id="home-button" style="cursor: pointer;"><i class="fas fa-newspaper"></i> NewsAI</h1>
+            <button id="toggle-sidebar" aria-label="Toggle Sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            <button id="toggle-dark-mode" aria-label="Toggle Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+        </header>
+        <main>
+            <nav class="sidebar">
+                <div class="search-container">
+                    <form id="news-form">
+                        <input type="text" id="user-input" placeholder="Search for news...">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+                <div class="previous-prompts">
+                    <h2>Previous Searches</h2>
+                    <ul id="previous-prompts">
+                        {% for prompt in prompts %}
+                            <li class="prompt-item">
+                                <a href="#" data-filename="{{ prompt.filename }}">{{ prompt.prompt }}</a>
+                                <button class="actions-button"><i class="fas fa-ellipsis-v"></i></button>
+                                <div class="actions-menu hidden">
+                                    <button class="edit-button">Edit</button>
+                                    <button class="delete-button">Delete</button>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </nav>
+            <section class="content">
+                <div id="home-page">
+                    <h1>Welcome to NewsAI</h1>
+                    <p>Your intelligent news aggregator powered by AI</p>
+                    <div class="features">
+                        <div class="feature">
+                            <i class="fas fa-robot"></i>
+                            <h3>AI-Powered Summaries</h3>
+                            <p>Get concise, intelligent summaries of the latest news</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-globe"></i>
+                            <h3>Wide Range of Topics</h3>
+                            <p>Explore news from various fields and interests</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-history"></i>
+                            <h3>Historical Context</h3>
+                            <p>Understand the background and implications of current events</p>
+                        </div>
+                    </div>
+                    <div class="cta">
+                        <p>Start by searching for a topic in the sidebar!</p>
+                    </div>
+                </div>
+                <div id="status" class="hidden">
+                    <div class="spinner"></div>
+                    <span id="status-message"></span>
+                </div>
+                <div id="result"></div>
+            </section>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}?v=1.1"></script>
+</body>
+</html>
